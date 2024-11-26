@@ -14,19 +14,32 @@ datasource db {
 }
 
 // prisma/schema.prisma
+
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  name     String
   password String
-  role     String  // 'admin', 'creator', 'user'
+  role     String   // 'admin', 'writer', 'user'
   articles Article[]
+  invitations Invitation[] // Relasi dengan Invitation
+}
+
+model Invitation {
+  id        Int      @id @default(autoincrement())
+  email     String
+  expiresAt DateTime // Tanggal kadaluarsa undangan
+  invitedBy Int      // ID dari user yang mengundang
+  user      User     @relation(fields: [invitedBy], references: [id])
+  createdAt DateTime @default(now()) // Waktu undangan dibuat
 }
 
 model Article {
   id      Int    @id @default(autoincrement())
   title   String
-  content String
+  content String @db.LongText
   image   String?
-  userId  Int
+  userId  Int    @default(1)
   user    User   @relation(fields: [userId], references: [id])
 }
+

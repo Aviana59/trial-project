@@ -1,0 +1,17 @@
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-title {
+    font-size: 1.5rem;
+  }
+  
+  .header-user {
+    font-size: 1rem;
+  }
+  

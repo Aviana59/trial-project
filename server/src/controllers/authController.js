@@ -27,7 +27,15 @@ export const login = async (req, res) => {
     }
 
     const token = generateToken(user);
-    res.json({ token });
+    res.cookie('token', token, {
+      httpOnly: true, // Prevent access via JavaScript
+      secure: false, // Use HTTPS in production
+      sameSite: 'lax', // Helps mitigate CSRF
+      maxAge: 60 * 60 * 1000, // 1 hour
+    });
+
+
+    return res.status(200).json({ message: 'Login successful', data: { token, user: { name: user.name, email: user.email, role: user.role } } });
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: 'Error logging in' });

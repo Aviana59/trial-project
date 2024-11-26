@@ -6,19 +6,45 @@ import Navbar  from './Navbar.jsx'
 import Section  from './Section.jsx'
 import InputFile  from './InputFile.jsx'
 import axios from "axios";
+
 const Add = () => {
+  const [value, setValue] = useState('');
+  const [title, setTitle] = useState('');
+  const [images, setImages] = useState(null);
+  // =======================================================================================================================================
+
+  // Settingan toolbar wysiwyg
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" }
+      ],
+      ["clean"],
+      [{ align: [] }, { color: [] }, { background: [] }],
+      [{ script: "sub" }, { script: "super" }],
+    ],
+  };
+
+  // fungsi nge set gambar
   const handleFileSelect = (file) => {
     setImages(file);
   };
+
 
   // fungsi neg set judul
   const handleInputTitle = (e) => {
     setTitle(e.target.value)
   }
 
+
   const saveData = async () => {
 
-    // oiya, if kalau cuma jalanin 1 kegiatan buat hasil nya maka bisa di tulis 1 line gini
     if(!images) return alert('please input images first!');
 
     const formData = new FormData();
@@ -27,7 +53,7 @@ const Add = () => {
     formData.append('content', value);
 
     try {
-      const response = await axios.post('http://localhost:3000/articles', formData, {
+      const response = await axios.post('http://localhost:3001/articles', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
